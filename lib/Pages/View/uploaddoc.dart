@@ -1,5 +1,5 @@
-import 'dart:async';
 import 'dart:ui';
+
 import 'package:autorescue_customer/Components/mybutton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,45 +16,37 @@ class UploadDocPage extends StatefulWidget {
   _UploadDocPageState createState() => _UploadDocPageState();
 }
 
-class _UploadDocPageState extends State
-  with SingleTickerProviderStateMixin {
+class _UploadDocPageState extends State<UploadDocPage> {
   File? dlImage;
   String? dlImageUrl;
   bool uploading = false;
 
-  StreamSubscription<DocumentSnapshot>? _subscription;
-
   @override
   void initState() {
     super.initState();
-    _subscribeToChanges();
+    fetchImages();
   }
 
-  @override
-  void dispose() {
-    _subscription?.cancel();
-    super.dispose();
-  }
-
-  void _subscribeToChanges() {
+  Future<void> fetchImages() async {
     final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      _subscription = FirebaseFirestore.instance
+    if (currentUser != null && dlImage != null) {
+      final userDoc = await FirebaseFirestore.instance
           .collection("USERS")
           .doc(currentUser.email)
-          .snapshots()
-          .listen((snapshot) {
+          .get();
+      if (userDoc.exists) {
         setState(() {
-          dlImageUrl = snapshot.get('DlImage');
+          dlImageUrl = userDoc.get('DlImage');
         });
-      });
+      }
+    } else {
+      // Handle the case where currentUser is null
     }
   }
 
   Future<void> pickDLImage() async {
     final picker = ImagePicker();
-    final pickedImageFile =
-        await picker.pickImage(source: ImageSource.gallery);
+    final pickedImageFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedImageFile != null) {
       setState(() {
