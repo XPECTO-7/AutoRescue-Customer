@@ -57,28 +57,30 @@ class _NewHomePageState extends State<NewHomePage> {
                     border: Border.all(color: Colors.white),
                     borderRadius: const BorderRadius.all(Radius.circular(7))),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                 mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: 200,
-                      width: 200,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 01,
+                    Center(
+                      child: SizedBox(
+                        height: 200,
+                        width: 200,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 01,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                            
                           ),
-                          borderRadius: BorderRadius.circular(8),
-                          
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              7), // Adjust the border radius as needed
-                          child: Image.network(
-                            value["vehicleImageURL"],
-                            fit: BoxFit.cover,
-                            width: 196,
-                            height: 196,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                7), // Adjust the border radius as needed
+                            child: Image.network(
+                              value["vehicleImageURL"],
+                              fit: BoxFit.cover,
+                              width: 200 ,
+                              height: 200,
+                            ),
                           ),
                         ),
                       ),
@@ -231,7 +233,7 @@ class _NewHomePageState extends State<NewHomePage> {
                   CarouselSlider(
                       items: vehicleLists,
                       options: CarouselOptions(
-                        height: 400,
+                        height: 470,
                         aspectRatio: 16 / 9,
                         viewportFraction: 0.8,
                         initialPage: 0,
