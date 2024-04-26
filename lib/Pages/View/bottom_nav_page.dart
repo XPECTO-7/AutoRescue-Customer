@@ -1,11 +1,10 @@
-
 import 'package:autorescue_customer/Colors/appcolor.dart';
 import 'package:autorescue_customer/Pages/View/account.dart';
 import 'package:autorescue_customer/Pages/View/home_page.dart';
+import 'package:autorescue_customer/Pages/View/new_home_page.dart';
 import 'package:autorescue_customer/Pages/View/req_service.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
-
 
 class BottomNavPage extends StatefulWidget {
   const BottomNavPage({Key? key}) : super(key: key);
@@ -19,7 +18,7 @@ class _HomePageState extends State<BottomNavPage> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     ReqServicePage(),
-    HomePageView(),
+    NewHomePage(),
     AccountPage(),
   ];
 

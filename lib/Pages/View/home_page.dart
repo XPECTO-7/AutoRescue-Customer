@@ -55,7 +55,7 @@ class _HomePageViewState extends State<HomePageView> {
     }
   }
 
-  Future<void> getAddedVehicles() async {
+  void getAddedVehicles() async {
     final currentUser = FirebaseAuth.instance.currentUser!;
     setState(() {
       userEmail = currentUser.email!;
@@ -382,6 +382,7 @@ class _HomePageViewState extends State<HomePageView> {
                               }
                             },
                             style: ElevatedButton.styleFrom(
+                              
                               padding: const EdgeInsets.all(20),
                               backgroundColor: AppColors
                                   .appPrimary, // Change this to your desired color

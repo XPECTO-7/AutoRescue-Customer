@@ -5,4 +5,5 @@ class AppColors {
   static const Color appSecondary = Color(0xff010B13);
   static const Color appTertiary = Color(0xffF5F5F5);
   static const Color appFoury = Color(0xff7851A9);
+  static const Color appDarktheme=Color(0xFF191919);
 }
