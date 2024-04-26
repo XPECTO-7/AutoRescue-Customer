@@ -1,4 +1,6 @@
 import 'package:autorescue_customer/Colors/appcolor.dart';
+import 'package:autorescue_customer/Pages/Components/custom_button.dart';
+import 'package:autorescue_customer/Pages/Components/vehicle_form_page.dart';
 import 'package:autorescue_customer/Pages/View/service_selection_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,6 +16,7 @@ class NewHomePage extends StatefulWidget {
 }
 
 class _NewHomePageState extends State<NewHomePage> {
+  bool isEmpty = false;
   String selectedService = "";
   void selectService(String vehicleId) {
     Navigator.push(context, MaterialPageRoute(
@@ -24,7 +27,23 @@ class _NewHomePageState extends State<NewHomePage> {
       },
     ));
   }
-
+  void initState() {
+    super.initState();
+    // Initialize your state here, such as fetching data from Firestore
+    fetchDataFromFirestore();
+  }
+  void fetchDataFromFirestore() async {
+    // Fetch data from Firestore and update the state
+    // For example:
+    var snapshot = await FirebaseFirestore.instance
+        .collection('USERS')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .collection('VEHICLES')
+        .get();
+    setState(() {
+      isEmpty = snapshot.docs.isEmpty;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -44,6 +63,7 @@ class _NewHomePageState extends State<NewHomePage> {
           );
         }
         if (snapshot.hasData) {
+         
           List list = snapshot.data!.docs;
           List<Widget> vehicleLists = [];
           for (var value in list) {
@@ -57,7 +77,7 @@ class _NewHomePageState extends State<NewHomePage> {
                     border: Border.all(color: Colors.white),
                     borderRadius: const BorderRadius.all(Radius.circular(7))),
                 child: Column(
-                 mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(
                       child: SizedBox(
@@ -70,7 +90,6 @@ class _NewHomePageState extends State<NewHomePage> {
                               width: 01,
                             ),
                             borderRadius: BorderRadius.circular(5),
-                            
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(
@@ -78,7 +97,7 @@ class _NewHomePageState extends State<NewHomePage> {
                             child: Image.network(
                               value["vehicleImageURL"],
                               fit: BoxFit.cover,
-                              width: 200 ,
+                              width: 200,
                               height: 200,
                             ),
                           ),
@@ -112,7 +131,9 @@ class _NewHomePageState extends State<NewHomePage> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 7,),
+                    const SizedBox(
+                      height: 7,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -220,31 +241,55 @@ class _NewHomePageState extends State<NewHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Select your vehicle for service",
+                    isEmpty == true
+                        ? "Add your vehicle for requesting service"
+                        : "Select your vehicle for service",
                     style: TextStyle(
-                        color: AppColors.appPrimary,
-                        fontSize: 20,
-                        fontFamily: GoogleFonts.ubuntu().fontFamily,
-                        fontWeight: FontWeight.bold),
+                      color:
+                      Colors.white,
+                      fontSize: 18,
+                      fontFamily: GoogleFonts.ubuntu().fontFamily,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  if (isEmpty == true)
+                    const SizedBox(
+                      height: 17,
+                    ),
+                  if (isEmpty == true)
+                    CustomButton(
+                      text: 'ADD VEHICLE',
+                      textColor: Colors.black,
+                      buttonColor: Colors.white,
+                      suffixIcon: Icons.car_crash,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const VehicleFormPage(),
+                          ),
+                        );
+                      },
+                    ),
                   const SizedBox(
                     height: 17,
                   ),
-                  CarouselSlider(
-                      items: vehicleLists,
-                      options: CarouselOptions(
-                        height: 470,
-                        aspectRatio: 16 / 9,
-                        viewportFraction: 0.8,
-                        initialPage: 0,
-                        enableInfiniteScroll: false,
-                        reverse: false,
-                        autoPlay: false,
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        enlargeCenterPage: true,
-                        enlargeFactor: 0.3,
-                        scrollDirection: Axis.horizontal,
-                      ))
+                  if (isEmpty == false)
+                    CarouselSlider(
+                        items: vehicleLists,
+                        options: CarouselOptions(
+                          height: 470,
+                          aspectRatio: 16 / 9,
+                          viewportFraction: 0.8,
+                          initialPage: 0,
+                          enableInfiniteScroll: false,
+                          reverse: false,
+                          autoPlay: false,
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          enlargeFactor: 0.3,
+                          scrollDirection: Axis.horizontal,
+                        ))
                 ],
               ),
             ),

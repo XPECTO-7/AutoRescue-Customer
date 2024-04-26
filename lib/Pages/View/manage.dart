@@ -3,6 +3,7 @@ import 'package:autorescue_customer/Colors/appcolor.dart';
 import 'package:autorescue_customer/Constants/app_strings.dart';
 import 'package:autorescue_customer/Pages/Components/custom_button.dart';
 import 'package:autorescue_customer/Pages/Components/text_area_simple.dart';
+import 'package:autorescue_customer/Pages/View/bottom_nav_page.dart';
 import 'package:autorescue_customer/Pages/View/req_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -167,7 +168,7 @@ class _ManagePageState extends State<ManagePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const ReqServicePage(),
+                                    builder: (context) => const BottomNavPage(),
                                   ),
                                 );
                               },

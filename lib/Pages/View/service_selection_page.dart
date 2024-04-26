@@ -120,7 +120,7 @@ class _VehicleServiceSelectionState extends State<VehicleServiceSelection> {
                         userData.data()?['Complete'] == true;
 
                     // Check if the user data is complete
-                    if (isComplete) {
+                    if (isComplete==false) {
                       // Check if a service and a vehicle are selected
                       if (selectedService.isNotEmpty) {
                         // Proceed to request service

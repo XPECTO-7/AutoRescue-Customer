@@ -10,7 +10,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-
 class VehicleFormPage extends StatefulWidget {
   const VehicleFormPage({Key? key}) : super(key: key);
 
@@ -414,7 +413,8 @@ class _VehicleFormPageState extends State<VehicleFormPage> {
                                 onPressed: () {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                      builder: (context) => const BottomNavPage(),
+                                      builder: (context) =>
+                                          const BottomNavPage(),
                                     ),
                                   );
                                 },
@@ -445,11 +445,10 @@ class _VehicleFormPageState extends State<VehicleFormPage> {
                   if (isLoading)
                     const Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Center(
                           child: CircularProgressIndicator(
-                            color: AppColors.appPrimary,
+                            color: Colors.black,
                           ),
                         ),
                       ],
