@@ -20,20 +20,20 @@ class CustomAlert {
         overlayColor: backgroundColor.withOpacity(0.7),
         backgroundColor: backgroundColor,
         isCloseButton: false,
-        animationDuration: Duration(milliseconds: 500),
+        animationDuration: const Duration(milliseconds: 500),
         alertBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),
       buttons: [
         DialogButton(
-          child: Text(
-            "OK",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
           onPressed: () => Navigator.pop(context),
           width: 120,
           color: buttonColor,
+          child: const Text(
+            "OK",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
         )
       ],
     ).show();

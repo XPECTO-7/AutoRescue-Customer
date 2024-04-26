@@ -1,6 +1,5 @@
 import 'package:autorescue_customer/Colors/appcolor.dart';
 import 'package:autorescue_customer/Pages/View/account.dart';
-import 'package:autorescue_customer/Pages/View/home_page.dart';
 import 'package:autorescue_customer/Pages/View/new_home_page.dart';
 import 'package:autorescue_customer/Pages/View/req_service.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';

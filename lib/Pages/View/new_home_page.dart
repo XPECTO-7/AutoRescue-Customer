@@ -1,11 +1,9 @@
 import 'package:autorescue_customer/Colors/appcolor.dart';
-import 'package:autorescue_customer/Pages/Utils/sqauretile.dart';
 import 'package:autorescue_customer/Pages/View/service_selection_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NewHomePage extends StatefulWidget {
@@ -56,44 +54,131 @@ class _NewHomePageState extends State<NewHomePage> {
               child: Container(
                 decoration: BoxDecoration(
                     color: AppColors.appDarktheme,
-                    border: Border.all(color: Colors.grey.withOpacity(0.5)),
-                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                    border: Border.all(color: Colors.white),
+                    borderRadius: const BorderRadius.all(Radius.circular(7))),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                        height: 200,
-                        width: 200,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                    value["vehicleImageURL"],
-                                  ),
-                                  fit: BoxFit.cover)),
-                        )),
+                      height: 200,
+                      width: 200,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 01,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                          
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              7), // Adjust the border radius as needed
+                          child: Image.network(
+                            value["vehicleImageURL"],
+                            fit: BoxFit.cover,
+                            width: 196,
+                            height: 196,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(value["Manufacturer"]),
+                        Text(
+                          value["Manufacturer"].toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontFamily: GoogleFonts.strait().fontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const Text(" "),
-                        Text(value["VehicleName"]),
+                        Text(
+                          value["VehicleName"].toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontFamily: GoogleFonts.strait().fontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
-                    Text(value["Year"]),
-                    Text(value["FuelType"]),
+                    const SizedBox(height: 7,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Register Number : "),
-                        Text(value["RegistrationNumber"]),
+                        const Icon(Icons.local_gas_station,
+                            color: Colors.white), // Icon for
+                        const SizedBox(
+                          width: 3,
+                        ),
+                        Text(
+                          value["FuelType"],
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: GoogleFonts.strait().fontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Kilometers : "),
-                        Text(value["Kilometers"]),
+                        Text(
+                          "Registration No : ",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: GoogleFonts.strait().fontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          value["RegistrationNumber"].toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: GoogleFonts.strait().fontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.speed,
+                            color: Colors.white), // Icon for K
+                        const SizedBox(
+                          width: 7,
+                        ),
+                        Text(
+                          "Kilometers : ",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: GoogleFonts.strait().fontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          value["Kilometers"],
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: GoogleFonts.strait().fontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -132,12 +217,16 @@ class _NewHomePageState extends State<NewHomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     "Select your vehicle for service",
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                        color: AppColors.appPrimary,
+                        fontSize: 20,
+                        fontFamily: GoogleFonts.ubuntu().fontFamily,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 17,
                   ),
                   CarouselSlider(
                       items: vehicleLists,

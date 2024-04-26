@@ -10,15 +10,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 class VehicleServiceSelection extends StatefulWidget {
   final String vehicleID;
-  const VehicleServiceSelection({super.key, required this.vehicleID});
+  const VehicleServiceSelection({Key? key, required this.vehicleID}) : super(key: key);
 
   @override
-  State<VehicleServiceSelection> createState() =>
-      _VehicleServiceSelectionState();
+  State<VehicleServiceSelection> createState() => _VehicleServiceSelectionState();
 }
 
 class _VehicleServiceSelectionState extends State<VehicleServiceSelection> {
   String selectedService = "";
+
   void updateSelectedService(String service) {
     setState(() {
       if (selectedService == service) {
@@ -35,11 +35,21 @@ class _VehicleServiceSelectionState extends State<VehicleServiceSelection> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Services"),
+        backgroundColor: Colors.black,
+        title:  Text("Services", style: TextStyle(
+                      fontFamily: GoogleFonts.ubuntu().fontFamily,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 26,
+                    ),),
       ),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height / 1.5,
-        width: MediaQuery.of(context).size.width,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.black,Colors.white ], // Adjust colors as per your preference
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -83,8 +93,7 @@ class _VehicleServiceSelectionState extends State<VehicleServiceSelection> {
                   text: 'TOWING',
                   imagePath: 'lib/images/tow-truck.png',
                   isSelected: selectedService == 'Emergency Towing Service',
-                  onTap: () =>
-                      updateSelectedService('Emergency Towing Service'),
+                  onTap: () => updateSelectedService('Emergency Towing Service'),
                 ),
                 const SizedBox(width: 7),
                 Squaretile(
@@ -95,57 +104,43 @@ class _VehicleServiceSelectionState extends State<VehicleServiceSelection> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 50,
-            ),
+            const SizedBox(height: 50),
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 19.50),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    // Fetch user data from Firestore
-                    final currentUser = FirebaseAuth.instance.currentUser;
-                    if (currentUser != null) {
-                      final userData = await FirebaseFirestore.instance
-                          .collection("USERS")
-                          .doc(currentUser.email!)
-                          .get();
-                      final isComplete = userData.exists &&
-                          userData.data()?['Complete'] == true;
+              padding: const EdgeInsets.symmetric(horizontal: 19.50),
+              child: ElevatedButton(
+                onPressed: () async {
+                  // Fetch user data from Firestore
+                  final currentUser = FirebaseAuth.instance.currentUser;
+                  if (currentUser != null) {
+                    final userData = await FirebaseFirestore.instance
+                        .collection("USERS")
+                        .doc(currentUser.email!)
+                        .get();
+                    final isComplete = userData.exists &&
+                        userData.data()?['Complete'] == true;
 
-                      // Check if the user data is complete
-                      if (isComplete) {
-                        // Check if a service and a vehicle are selected
-                        if (selectedService.isNotEmpty) {
-                          // Proceed to request service
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ManagePage(
-                                servicetype: selectedService,
-                                vehicleID: widget.vehicleID,
-                                userEmail: currentUser.email!,
-                              ),
+                    // Check if the user data is complete
+                    if (isComplete) {
+                      // Check if a service and a vehicle are selected
+                      if (selectedService.isNotEmpty) {
+                        // Proceed to request service
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ManagePage(
+                              servicetype: selectedService,
+                              vehicleID: widget.vehicleID,
+                              userEmail: currentUser.email!,
                             ),
-                          );
-                          return; // Exit onPressed method
-                        } else {
-                          // Show alert if service or vehicle is not selected
-                          CustomAlert.show(
-                            context: context,
-                            title: "Missing Information",
-                            message: "Please select a service and a vehicle.",
-                            messageTextColor: Colors.red,
-                            backgroundColor: Colors.white,
-                            buttonColor: Colors.grey,
-                          );
-                          return; // Exit onPressed method
-                        }
+                          ),
+                        );
+                        return; // Exit onPressed method
                       } else {
-                        // Show alert if user data is not complete
+                        // Show alert if service or vehicle is not selected
                         CustomAlert.show(
                           context: context,
-                          title: "Incomplete Profile",
-                          message: "Upload your Driving License",
+                          title: "Missing Information",
+                          message: "Please select a service and a vehicle.",
                           messageTextColor: Colors.red,
                           backgroundColor: Colors.white,
                           buttonColor: Colors.grey,
@@ -153,40 +148,52 @@ class _VehicleServiceSelectionState extends State<VehicleServiceSelection> {
                         return; // Exit onPressed method
                       }
                     } else {
-                      // Handle the case where currentUser is null
+                      // Show alert if user data is not complete
+                      CustomAlert.show(
+                        context: context,
+                        title: "Incomplete Profile",
+                        message: "Upload your Driving License",
+                        messageTextColor: Colors.red,
+                        backgroundColor: Colors.white,
+                        buttonColor: Colors.grey,
+                      );
+                      return; // Exit onPressed method
                     }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(20),
-                    backgroundColor: AppColors
-                        .appPrimary, // Change this to your desired color
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
+                  } else {
+                    // Handle the case where currentUser is null
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(20),
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'REQUEST SERVICE',
-                          style: TextStyle(
-                            fontFamily: GoogleFonts.ubuntu().fontFamily,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(width: 8), // Space between text and icon
-                        const Icon(
-                          FontAwesomeIcons.chevronRight,
-                          size: 26,
+                ),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'REQUEST SERVICE',
+                        style: TextStyle(
+                          fontFamily: GoogleFonts.ubuntu().fontFamily,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
                           color: Colors.black,
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(width: 8), // Space between text and icon
+                      const Icon(
+                        FontAwesomeIcons.chevronRight,
+                        size: 26,
+                        color: Colors.black,
+                      ),
+                    ],
                   ),
-                ))
+                ),
+              ),
+            )
           ],
         ),
       ),

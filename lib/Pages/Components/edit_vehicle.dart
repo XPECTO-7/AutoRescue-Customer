@@ -9,7 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class EditVehiclePage extends StatefulWidget {
   final Map<String, dynamic> vehicleDetails;
 
@@ -60,7 +59,32 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
     _selectedFuelType = widget.vehicleDetails['fueltype'];
 
     _vehicleImageURL = widget.vehicleDetails['vehicleImageURL'];
-    _vehicleRCImageURL= widget.vehicleDetails['vehicleRCImageURL'];
+    _vehicleRCImageURL = widget.vehicleDetails['vehicleRCImageURL'];
+
+    // Check if RC image URL exists, if not, try fetching it again
+    if (_vehicleRCImageURL == null) {
+      // Call a method to fetch RC image URL
+      _fetchRCImageURL();
+    } else {
+      print('RC Image URL is not null: $_vehicleRCImageURL');
+    }
+  }
+
+  Future<void> _fetchRCImageURL() async {
+    // Fetch the RC image URL from Firestore using the registration number
+    final currentUser = FirebaseAuth.instance.currentUser!;
+    final vehicleRef = FirebaseFirestore.instance
+        .collection('USERS')
+        .doc(currentUser.email)
+        .collection('VEHICLES');
+    final vehicleDoc =
+        await vehicleRef.doc(_registrationNumberController.text).get();
+
+    if (vehicleDoc.exists) {
+      setState(() {
+        _vehicleRCImageURL = vehicleDoc['vehicleRCImageURL'];
+      });
+    }
   }
 
   Future<void> _pickImage(ImageSource source) async {
@@ -75,7 +99,8 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
       _pickedVehicleImage = File(pickedImageFile.path);
     });
   }
-   Future<void> _pickRCImage(ImageSource source) async {
+
+  Future<void> _pickRCImage(ImageSource source) async {
     final pickedRCImageFile = await ImagePicker().pickImage(
       source: source,
       maxWidth: 500,
@@ -101,7 +126,8 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
     final vehicleImageURL = await storageRef.getDownloadURL();
     return vehicleImageURL;
   }
-   Future<String?> _uploadRCImageToFirebase(File imageFile) async {
+
+  Future<String?> _uploadRCImageToFirebase(File imageFile) async {
     final currentUser = FirebaseAuth.instance.currentUser!;
     final storageRef = FirebaseStorage.instance
         .ref()
@@ -177,7 +203,8 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
     }
     // Upload image to Firebase Storage if a new image is picked
     if (_pickedVehicleRCImage != null) {
-      vehicleRCImageURL = await _uploadRCImageToFirebase(_pickedVehicleRCImage!);
+      vehicleRCImageURL =
+          await _uploadRCImageToFirebase(_pickedVehicleRCImage!);
     }
     // Update the vehicle details in the database
     final currentUser = FirebaseAuth.instance.currentUser!;
@@ -202,7 +229,7 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
     if (vehicleImageURL != null) {
       updatedVehicleDetails['vehicleImageURL'] = vehicleImageURL;
     }
-     if (vehicleRCImageURL != null) {
+    if (vehicleRCImageURL != null) {
       updatedVehicleDetails['vehicleRCImageURL'] = vehicleRCImageURL;
     }
 
@@ -355,29 +382,30 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
                 style: _labelTextStyle,
               ),
               const SizedBox(height: 8),
-              Container(
-                height: 200,
-                color: Colors.grey[200],
-                child: Center(
-                  child: _pickedVehicleImage == null
-                      ? _vehicleImageURL != null
-                          ? Image.network(
-                              _vehicleImageURL!,
-                              fit: BoxFit.cover,
-                            )
-                          : IconButton(
-                              icon: const Icon(
+              GestureDetector(
+                onTap: () {
+                  _pickImage(ImageSource.gallery);
+                },
+                child: Container(
+                  height: 200,
+                  color: Colors.grey[200],
+                  child: Center(
+                    child: _pickedVehicleImage == null
+                        ? _vehicleImageURL != null
+                            ? Image.network(
+                                _vehicleImageURL!,
+                                fit: BoxFit.cover,
+                              )
+                            : const Icon(
                                 Icons.photo_camera,
                                 size: 150,
-                              ),
-                              onPressed: () {
-                                _pickImage(ImageSource.gallery);
-                              },
-                            )
-                      : Image.file(
-                          _pickedVehicleImage!,
-                          fit: BoxFit.cover,
-                        ),
+                                color: Colors.white,
+                              )
+                        : Image.file(
+                            _pickedVehicleImage!,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -386,29 +414,30 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
                 style: _labelTextStyle,
               ),
               const SizedBox(height: 8),
-               Container(
-                height: 200,
-                color: Colors.grey[200],
-                child: Center(
-                  child: _pickedVehicleRCImage == null
-                      ? _vehicleRCImageURL != null
-                          ? Image.network(
-                              _vehicleRCImageURL!,
-                              fit: BoxFit.cover,
-                            )
-                          : IconButton(
-                              icon: const Icon(
+              GestureDetector(
+                onTap: () {
+                  _pickRCImage(ImageSource.gallery);
+                },
+                child: Container(
+                  height: 200,
+                  color: Colors.grey[200],
+                  child: Center(
+                    child: _pickedVehicleRCImage == null
+                        ? _vehicleRCImageURL != null
+                            ? Image.network(
+                                _vehicleRCImageURL!,
+                                fit: BoxFit.cover,
+                              )
+                            : const Icon(
                                 Icons.photo_camera,
                                 size: 150,
-                              ),
-                              onPressed: () {
-                                _pickRCImage(ImageSource.gallery);
-                              },
-                            )
-                      : Image.file(
-                          _pickedVehicleRCImage!,
-                          fit: BoxFit.cover,
-                        ),
+                                color: Colors.white,
+                              )
+                        : Image.file(
+                            _pickedVehicleRCImage!,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -531,7 +560,9 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _isLoading ? null : _updateVehicle, // Disable button when loading
+                onPressed: _isLoading
+                    ? null
+                    : _updateVehicle, // Disable button when loading
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.black,
                   backgroundColor: Colors.white,
@@ -540,22 +571,25 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
                   ),
                   minimumSize: const Size(double.infinity, 50),
                 ),
-                child: _isLoading ? const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                          child:  CircularProgressIndicator(
-                            color: Colors.white,
+                child: _isLoading
+                    ? const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                  ],
-                ) : Text( // Show loading indicator when loading
-                  'UPDATE VEHICLE',
-                  style: TextStyle(
-                      fontSize: 19,
-                      fontFamily: GoogleFonts.strait().fontFamily,
-                      fontWeight: FontWeight.bold),
-                ),
+                        ],
+                      )
+                    : Text(
+                        // Show loading indicator when loading
+                        'UPDATE VEHICLE',
+                        style: TextStyle(
+                            fontSize: 19,
+                            fontFamily: GoogleFonts.strait().fontFamily,
+                            fontWeight: FontWeight.bold),
+                      ),
               ),
             ],
           ),
