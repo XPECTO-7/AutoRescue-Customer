@@ -109,7 +109,7 @@ class _VehicleServiceSelectionState extends State<VehicleServiceSelection> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 17),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 19.50),
                   child: ElevatedButton(
@@ -177,7 +177,7 @@ class _VehicleServiceSelectionState extends State<VehicleServiceSelection> {
                       padding: const EdgeInsets.all(20),
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(3),
                       ),
                     ),
                     child: Center(

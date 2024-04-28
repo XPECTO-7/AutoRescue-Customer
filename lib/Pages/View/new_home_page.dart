@@ -27,11 +27,13 @@ class _NewHomePageState extends State<NewHomePage> {
       },
     ));
   }
+
   void initState() {
     super.initState();
     // Initialize your state here, such as fetching data from Firestore
     fetchDataFromFirestore();
   }
+
   void fetchDataFromFirestore() async {
     // Fetch data from Firestore and update the state
     // For example:
@@ -44,6 +46,7 @@ class _NewHomePageState extends State<NewHomePage> {
       isEmpty = snapshot.docs.isEmpty;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -63,7 +66,6 @@ class _NewHomePageState extends State<NewHomePage> {
           );
         }
         if (snapshot.hasData) {
-         
           List list = snapshot.data!.docs;
           List<Widget> vehicleLists = [];
           for (var value in list) {
@@ -83,23 +85,14 @@ class _NewHomePageState extends State<NewHomePage> {
                       child: SizedBox(
                         height: 200,
                         width: 200,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 01,
-                            ),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                7), // Adjust the border radius as needed
-                            child: Image.network(
-                              value["vehicleImageURL"],
-                              fit: BoxFit.cover,
-                              width: 200,
-                              height: 200,
-                            ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              7), // Adjust the border radius as needed
+                          child: Image.network(
+                            value["vehicleImageURL"],
+                            fit: BoxFit.cover,
+                            width: 200,
+                            height: 200,
                           ),
                         ),
                       ),
@@ -124,7 +117,7 @@ class _NewHomePageState extends State<NewHomePage> {
                           value["VehicleName"].toUpperCase(),
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 22,
                             fontFamily: GoogleFonts.strait().fontFamily,
                             fontWeight: FontWeight.bold,
                           ),
@@ -156,43 +149,12 @@ class _NewHomePageState extends State<NewHomePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Registration No : ",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontFamily: GoogleFonts.strait().fontFamily,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          value["RegistrationNumber"].toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontFamily: GoogleFonts.strait().fontFamily,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
                         const Icon(Icons.speed,
                             color: Colors.white), // Icon for K
                         const SizedBox(
-                          width: 7,
+                          width: 3,
                         ),
-                        Text(
-                          "Kilometers : ",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontFamily: GoogleFonts.strait().fontFamily,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+
                         Text(
                           value["Kilometers"],
                           style: TextStyle(
@@ -202,7 +164,40 @@ class _NewHomePageState extends State<NewHomePage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        const SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "km",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: GoogleFonts.strait().fontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                       color: Colors.white10
+                      ),
+                      
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                         
+                          Text(
+                            value["RegistrationNumber"].toUpperCase(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontFamily: GoogleFonts.strait().fontFamily,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -211,6 +206,7 @@ class _NewHomePageState extends State<NewHomePage> {
           }
           return Scaffold(
             appBar: AppBar(
+              backgroundColor: Colors.black,
               automaticallyImplyLeading: false,
               toolbarHeight: 80,
               title: Row(
@@ -234,63 +230,74 @@ class _NewHomePageState extends State<NewHomePage> {
                 ],
               ),
             ),
-            body: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    isEmpty == true
-                        ? "Add your vehicle for requesting service"
-                        : "Select your vehicle for service",
-                    style: TextStyle(
-                      color:
-                      Colors.white,
-                      fontSize: 18,
-                      fontFamily: GoogleFonts.ubuntu().fontFamily,
-                      fontWeight: FontWeight.bold,
+            body: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black,
+                    Colors.white
+                  ], // Adjust colors as per your preference
+                ),
+              ),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      isEmpty == true
+                          ? "Add your vehicle for requesting service"
+                          : "Select your vehicle for service",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: GoogleFonts.ubuntu().fontFamily,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  if (isEmpty == true)
+                    if (isEmpty == true)
+                      const SizedBox(
+                        height: 17,
+                      ),
+                    if (isEmpty == true)
+                      CustomButton(
+                        text: 'ADD VEHICLE',
+                        textColor: Colors.black,
+                        buttonColor: Colors.white,
+                        suffixIcon: Icons.car_crash,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const VehicleFormPage(),
+                            ),
+                          );
+                        },
+                      ),
                     const SizedBox(
                       height: 17,
                     ),
-                  if (isEmpty == true)
-                    CustomButton(
-                      text: 'ADD VEHICLE',
-                      textColor: Colors.black,
-                      buttonColor: Colors.white,
-                      suffixIcon: Icons.car_crash,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const VehicleFormPage(),
-                          ),
-                        );
-                      },
-                    ),
-                  const SizedBox(
-                    height: 17,
-                  ),
-                  if (isEmpty == false)
-                    CarouselSlider(
-                        items: vehicleLists,
-                        options: CarouselOptions(
-                          height: 470,
-                          aspectRatio: 16 / 9,
-                          viewportFraction: 0.8,
-                          initialPage: 0,
-                          enableInfiniteScroll: false,
-                          reverse: false,
-                          autoPlay: false,
-                          autoPlayCurve: Curves.fastOutSlowIn,
-                          enlargeCenterPage: true,
-                          enlargeFactor: 0.3,
-                          scrollDirection: Axis.horizontal,
-                        ))
-                ],
+                    if (isEmpty == false)
+                      CarouselSlider(
+                          items: vehicleLists,
+                          options: CarouselOptions(
+                            height: 470,
+                            aspectRatio: 16 / 9,
+                            viewportFraction: 0.8,
+                            initialPage: 0,
+                            enableInfiniteScroll: false,
+                            reverse: false,
+                            autoPlay: false,
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enlargeCenterPage: true,
+                            enlargeFactor: 0.2,
+                            scrollDirection: Axis.horizontal,
+                          ))
+                  ],
+                ),
               ),
             ),
           );

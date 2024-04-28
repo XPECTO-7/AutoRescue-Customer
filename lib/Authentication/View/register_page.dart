@@ -6,6 +6,7 @@ import 'package:autorescue_customer/Components/pwcontrol.dart';
 import 'package:autorescue_customer/Components/reg_textfield.dart';
 import 'package:autorescue_customer/Pages/View/bottom_nav_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,11 +30,12 @@ class _RegisterPageState extends State<RegisterPage> {
   final numericRegex = RegExp(r'[0-9]');
   bool isLoading = false;
 
-  void validation(BuildContext context) {
-    if (emailController.text.isNotEmpty &&
-        passwordController.text.isNotEmpty &&
-        fullNameController.text.isNotEmpty &&
-        confirmPasswordController.text.isNotEmpty) {
+ void validation(BuildContext context) {
+  if (emailController.text.isNotEmpty &&
+      passwordController.text.isNotEmpty &&
+      fullNameController.text.isNotEmpty &&
+      confirmPasswordController.text.isNotEmpty) {
+    if (EmailValidator.validate(emailController.text)) {
       if (passwordController.text.length >= 8 &&
           numericRegex.hasMatch(passwordController.text)) {
         if (passwordController.text == confirmPasswordController.text) {
@@ -57,15 +59,25 @@ class _RegisterPageState extends State<RegisterPage> {
         );
       }
     } else {
-      //Display fill all fields
+      //Display invalid email
       showDialog(
         context: context,
         builder: (context) => const MyAlertBox(
-          message: "Fill all fields",
+          message: "Enter a valid email address",
         ),
       );
     }
+  } else {
+    //Display fill all fields
+    showDialog(
+      context: context,
+      builder: (context) => const MyAlertBox(
+        message: "Fill all fields",
+      ),
+    );
   }
+}
+
 
   void signUp(BuildContext context) async {
     setState(() {
