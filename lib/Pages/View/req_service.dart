@@ -214,6 +214,43 @@ class _ReqServicePageState extends State<ReqServicePage> {
                               );
                             },
                           ),
+                          if (request["Status"] == "Declined") 
+                          CustomButton(
+                            h: 40,
+                            text: 'Remove Request',
+                            textColor: Colors.white,
+                            fsize: 16,
+                            suffixIcon: Icons.cancel_sharp,
+                            buttonColor: Colors.red.shade500,
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Confirm Deletion"),
+                                    content: const Text(
+                                        "Are you sure to remove this request?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("No"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () async {
+                                          await _deleteRequest(
+                                              userRequest[index].id);
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Yes"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),
