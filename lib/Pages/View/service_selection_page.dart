@@ -1,4 +1,3 @@
-import 'package:autorescue_customer/Colors/appcolor.dart';
 import 'package:autorescue_customer/Pages/Utils/alert_error.dart';
 import 'package:autorescue_customer/Pages/Utils/sqauretile.dart';
 import 'package:autorescue_customer/Pages/View/manage.dart';

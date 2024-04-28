@@ -1,10 +1,8 @@
-
 import 'package:autorescue_customer/Colors/appcolor.dart';
 import 'package:autorescue_customer/Constants/app_strings.dart';
 import 'package:autorescue_customer/Pages/Components/custom_button.dart';
 import 'package:autorescue_customer/Pages/Components/text_area_simple.dart';
 import 'package:autorescue_customer/Pages/View/bottom_nav_page.dart';
-import 'package:autorescue_customer/Pages/View/req_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -44,7 +42,7 @@ class _ManagePageState extends State<ManagePage> {
     setState(() {
       isLoading = true;
     });
-    if (widget.servicetype == "TYRE WORKS" || widget.servicetype == "KEY LOCKOUT") {
+    if (widget.servicetype == "KEY LOCKOUT") {
       setState(() {
         service = "Mechanical Service";
       });
@@ -80,20 +78,26 @@ class _ManagePageState extends State<ManagePage> {
         case "Mechanical Service":
           asset = "lib/images/automotive.png";
           break;
-        case "Emergency Towing service":
+        case "TYRE WORKS":
+          asset = "lib/images/tyre.png";
+          break;
+        case "Emergency Towing Service":
           asset = "lib/images/tow-truck.png";
           break;
         case "EV Charging service":
           asset = "lib/images/charging-station.png";
           break;
         default:
-          asset = "lib/images/cserv.png";
+          asset = "lib/images/cserv.png.png";
       }
 
       // Check if "Profile Photo" field exists in the document
       String profilePhotoUrl = data.containsKey("Profile Photo")
           ? data["Profile Photo"]
-          :const Icon(Icons.account_circle,color: AppColors.appPrimary,); // Use empty string as default value if field doesn't exist
+          : const Icon(
+              Icons.account_circle,
+              color: AppColors.appPrimary,
+            ); // Use empty string as default value if field doesn't exist
 
       if (data["Service Type"] == service) {
         services.add(Marker(
@@ -126,7 +130,8 @@ class _ManagePageState extends State<ManagePage> {
                                   height: 100,
                                   width: 100,
                                   fit: BoxFit.cover,
-                                  loadingBuilder: (context, child, loadingProgress) {
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
                                     if (loadingProgress == null) return child;
                                     return const Center(
                                       child: CircularProgressIndicator(
@@ -222,7 +227,10 @@ class _ManagePageState extends State<ManagePage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection("PROVIDERS").snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection("PROVIDERS")
+          .where('Approved', isEqualTo: 'Accepted')
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           getServiceLocations(
