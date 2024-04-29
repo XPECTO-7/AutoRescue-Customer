@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SimpleTextArea extends StatelessWidget {
-  final String title,content;
-  const SimpleTextArea({super.key,required this.content,required this.title});
+  final String title, content;
+  const SimpleTextArea({super.key, required this.content, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +22,19 @@ class SimpleTextArea extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(title,),
-                const SizedBox(width: 5,),
-                 Text(content,),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontFamily: GoogleFonts.ubuntu().fontFamily,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  content,
+                ),
               ],
             ),
           ),

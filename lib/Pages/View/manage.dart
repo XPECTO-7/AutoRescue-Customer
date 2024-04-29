@@ -155,6 +155,9 @@ class _ManagePageState extends State<ManagePage> {
                               title: "Ph : ",
                             ),
                             SimpleTextArea(
+                                content: data["Min Price"],
+                                title: "Min Charge"),
+                            SimpleTextArea(
                               content: data["Service Type"],
                               title: "",
                             ),
