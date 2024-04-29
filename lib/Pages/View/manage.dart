@@ -115,7 +115,7 @@ class _ManagePageState extends State<ManagePage> {
                     backgroundColor: Colors.grey[950],
                     surfaceTintColor: Colors.transparent,
                     content: SizedBox(
-                      height: MediaQuery.of(context).size.height / 1.5,
+                      height: MediaQuery.of(context).size.height / 1.4,
                       width: MediaQuery.of(context).size.width,
                       child: Container(
                         alignment: Alignment.center,
