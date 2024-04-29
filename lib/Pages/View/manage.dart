@@ -3,6 +3,7 @@ import 'package:autorescue_customer/Constants/app_strings.dart';
 import 'package:autorescue_customer/Pages/Components/custom_button.dart';
 import 'package:autorescue_customer/Pages/Components/text_area_simple.dart';
 import 'package:autorescue_customer/Pages/View/bottom_nav_page.dart';
+import 'package:autorescue_customer/Pages/View/req_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -114,7 +115,7 @@ class _ManagePageState extends State<ManagePage> {
                     backgroundColor: Colors.grey[950],
                     surfaceTintColor: Colors.transparent,
                     content: SizedBox(
-                      height: MediaQuery.of(context).size.height / 1.6,
+                      height: MediaQuery.of(context).size.height / 1.5,
                       width: MediaQuery.of(context).size.width,
                       child: Container(
                         alignment: Alignment.center,
@@ -182,7 +183,7 @@ class _ManagePageState extends State<ManagePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const BottomNavPage(),
+                                    builder: (context) => const ReqServicePage(),
                                   ),
                                 );
                               },
