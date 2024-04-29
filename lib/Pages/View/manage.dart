@@ -142,8 +142,17 @@ class _ManagePageState extends State<ManagePage> {
                                 ),
                               ),
                             ),
+                            const SizedBox(height: 7,),
+                             SimpleTextArea(
+                              content: data["Service Type"],
+                              title: "",
+                            ),
                             SimpleTextArea(
                               content: data["Company Name"],
+                              title: "Company : ",
+                            ),
+                            SimpleTextArea(
+                              content: data["Fullname"],
                               title: "Name : ",
                             ),
                             SimpleTextArea(
@@ -156,11 +165,8 @@ class _ManagePageState extends State<ManagePage> {
                             ),
                             SimpleTextArea(
                                 content: data["Min Price"],
-                                title: "Min Charge"),
-                            SimpleTextArea(
-                              content: data["Service Type"],
-                              title: "",
-                            ),
+                                title: "Min Charge :"),
+                           
                             const SizedBox(
                               height: 30,
                             ),

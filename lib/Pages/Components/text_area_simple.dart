@@ -15,25 +15,29 @@ class SimpleTextArea extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            color: Colors.black,
+            color: Colors.black87,
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   title,
                   style: TextStyle(
-                    fontFamily: GoogleFonts.ubuntu().fontFamily,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontFamily: GoogleFonts.ubuntu().fontFamily,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
                 ),
                 const SizedBox(
                   width: 5,
                 ),
                 Text(
                   content,
+                  style: TextStyle(
+                      fontFamily: GoogleFonts.ubuntu().fontFamily,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
                 ),
               ],
             ),
