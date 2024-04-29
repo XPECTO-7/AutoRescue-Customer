@@ -175,7 +175,7 @@ void signIn() async {
                                     onTap: () {
                                       Navigator.push(context,
                                           MaterialPageRoute(builder: (context) {
-                                        return const ForgotPasswordPage();
+                                        return  ForgotPasswordPage();
                                       }));
                                     },
                                     child: const Text(
